@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+MAVEN_VERSION="3.9.9"
+TOOL_DIR="$HOME/.honeybee-tools"
+MVN_HOME="$TOOL_DIR/apache-maven-$MAVEN_VERSION"
+MVN_EXE="$MVN_HOME/bin/mvn"
+if [ ! -x "$MVN_EXE" ]; then
+  echo "[HoneyBee] Maven not found. Downloading Maven $MAVEN_VERSION..."
+  mkdir -p "$TOOL_DIR"
+  curl -L "https://archive.apache.org/dist/maven/maven-3/$MAVEN_VERSION/binaries/apache-maven-$MAVEN_VERSION-bin.tar.gz" -o "$TOOL_DIR/maven.tgz"
+  tar -xzf "$TOOL_DIR/maven.tgz" -C "$TOOL_DIR"
+fi
+exec "$MVN_EXE" "$@"

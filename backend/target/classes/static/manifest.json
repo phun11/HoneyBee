@@ -1,0 +1,15 @@
+{
+  "name": "HoneyBee Trace",
+  "short_name": "HoneyBee",
+  "description": "Ứng dụng truy xuất nguồn gốc thực phẩm sạch bằng QR.",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#FFF8E7",
+  "theme_color": "#F6B93B",
+  "icons": [
+    { "src": "assets/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any maskable" },
+    { "src": "assets/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
+  ]
+}

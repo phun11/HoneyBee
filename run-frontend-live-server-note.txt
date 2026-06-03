@@ -1,0 +1,13 @@
+Khuyến nghị chạy bản H2 bằng backend serve luôn frontend:
+- Backend + frontend: http://localhost:8080/login.html
+- Scanner: http://localhost:8080/scanner.html
+- H2 Console: http://localhost:8080/h2-console
+
+Nếu dùng VS Code Live Server:
+- Mở folder frontend
+- Link thường là http://localhost:5500
+- API vẫn chạy ở http://localhost:8080/api
+
+Lưu ý camera:
+- Camera chạy tốt trên localhost hoặc HTTPS.
+- Nếu mở bằng IP LAN trên điện thoại qua HTTP, trình duyệt có thể chặn camera.

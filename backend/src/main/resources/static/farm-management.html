@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HoneyBee Farm</title><link rel="stylesheet" href="css/honeybee.css"><link rel="manifest" href="manifest.json">
+</head>
+<body>
+<header class="hb-header"><div class="hb-shell hb-header-inner"><div class="hb-brand"><span class="hb-logo">🌱</span><span>HoneyBee Farm<small>Tạo lô hàng đầy đủ, chứng chỉ và bàn giao vận chuyển</small></span></div><nav style="display:flex;gap:10px"><a class="hb-btn ghost" href="products.html">Lô & QR</a><a class="hb-btn ghost" href="login.html">Đăng xuất</a></nav></div></header>
+<main class="hb-shell" style="padding:26px 0 36px">
+  <section class="hb-page-head"><div><span class="hb-badge safe">FARM ROLE</span><h1>Quản lý lô hàng nông trại</h1><p>Lô hàng là đối tượng trung tâm. Farm nhập đủ sản phẩm, nguồn gốc, chứng chỉ và thông tin chuyển giao để Transport/Store xử lý thật.</p></div></section>
+  <section class="hb-grid">
+    <article class="hb-card hb-col-5">
+      <h2>Tạo lô hàng mới</h2><p class="hb-note">Chia theo nhóm: sản phẩm, nông trại, chất lượng/chứng chỉ, chuyển giao.</p>
+      <form id="batch-form" class="hb-form">
+        <h3>1. Thông tin sản phẩm</h3>
+        <label>Tên sản phẩm/lô hàng<input name="productName" required placeholder="VD: Rau cải xanh - Lô Đà Lạt 004"></label>
+        <div class="hb-form-row"><label>Loại sản phẩm<input name="category" required placeholder="Rau xanh"></label><label>Giá demo<input type="number" name="price" value="30000" min="0"></label></div>
+        <div class="hb-form-row"><label>Số lượng<input type="number" name="quantity" value="100" min="0"></label><label>Đơn vị<input name="unit" value="kg"></label></div>
+        <label>Mô tả<textarea name="description" placeholder="Mô tả chất lượng, đóng gói..."></textarea></label>
+        <label>Ảnh sản phẩm do Farm upload<input id="product-image-file" type="file" accept="image/*"></label>
+        <input type="hidden" name="productImageBase64" id="productImageBase64">
+        <input type="hidden" name="productImageMime" id="productImageMime">
+        <div id="product-image-preview" class="hb-note">Chưa chọn ảnh. Ảnh sẽ lưu vào Oracle DB và hiển thị khi quét QR.</div>
+        <h3>2. Nông trại</h3>
+        <input type="hidden" name="farmId" id="farmId">
+        <label>Nơi trồng<input name="cultivationPlace" placeholder="Nhà kính A1 - Đà Lạt"></label>
+        <label>Địa chỉ farm/điểm sản xuất<input name="farmAddress" placeholder="Xã Xuân Thọ, Đà Lạt"></label>
+        <div class="hb-form-row"><label>Ngày gieo trồng<input type="date" name="sowingDate"></label><label>Ngày thu hoạch<input type="date" name="harvestDate"></label></div>
+        <label>Quy trình sản xuất<textarea name="productionProcess" placeholder="Gieo trồng, chăm sóc, kiểm tra, đóng gói..."></textarea></label>
+        <h3>3. Chất lượng & chứng chỉ</h3>
+        <label>Hạn sử dụng<input type="date" name="expiredDate"></label>
+        <label>Chứng chỉ an toàn thực phẩm<input name="certificateName" placeholder="VD: VietGAP rau quả 2026"></label>
+        <div class="hb-form-row"><label>Đơn vị cấp<input name="certificateIssuer" placeholder="Trung tâm kiểm định"></label><label>File/link chứng chỉ<input name="certificateFileUrl" placeholder="docs/cert.pdf"></label></div>
+        <div class="hb-form-row"><label>Ngày cấp<input type="date" name="certificateIssueDate"></label><label>Ngày hết hạn chứng chỉ<input type="date" name="certificateExpiredDate"></label></div>
+        <h3>4. Chuyển giao</h3>
+        <div class="hb-form-row"><label>Store nhận hàng<select name="storeId" id="store-select" required></select></label><label>Đơn vị vận chuyển<select name="transporterId" id="transporter-select"></select></label></div>
+        <label>Điểm lấy hàng<input name="pickupLocation" placeholder="Mặc định là địa chỉ farm"></label>
+        <label>Điểm giao hàng<input name="deliveryLocation" placeholder="Mặc định là địa chỉ store"></label>
+        <div class="hb-form-row"><label>Nhiệt độ thấp nhất<input type="number" name="requiredTempMin" value="6" step="0.1"></label><label>Nhiệt độ cao nhất<input type="number" name="requiredTempMax" value="10" step="0.1"></label></div>
+        <div class="hb-form-row"><label>Độ ẩm thấp nhất<input type="number" name="requiredHumidityMin" value="70" step="0.1"></label><label>Độ ẩm cao nhất<input type="number" name="requiredHumidityMax" value="90" step="0.1"></label></div>
+        <label>Ghi chú cho vận chuyển<textarea name="transportNote" placeholder="VD: Giữ xe lạnh 6-10°C, không xếp chồng quá 5 thùng..."></textarea></label>
+        <button class="hb-btn full" type="submit">+ Tạo lô và sinh QR</button>
+      </form>
+      <p id="farm-msg" style="font-weight:800;color:var(--hb-brown)"></p>
+      <hr style="border:0;border-top:1px dashed var(--hb-border);margin:20px 0">
+      <h2>Import Excel nhiều lô</h2><p class="hb-note">Excel hỗ trợ import ảnh bằng cột imageUrl hoặc productImageBase64/productImageMime, kèm quantity, unit, storeId, transporterId, pickupLocation, deliveryLocation, requiredTempMin, requiredTempMax, certificateName...</p>
+      <button id="download-excel-template" class="hb-btn ghost" type="button">⬇️ Tải file mẫu</button>
+      <input id="excel-file" class="hb-input" type="file" accept=".xlsx,.xls,.csv" />
+      <div id="excel-preview-box" style="display:none;margin-top:14px"><p id="excel-summary" class="hb-note"></p><div id="excel-preview"></div><button id="confirm-excel-import" class="hb-btn full" type="button" style="margin-top:12px">✅ Xác nhận tạo các lô hợp lệ</button><div id="excel-import-result"></div></div>
+    </article>
+    <article class="hb-card hb-col-7"><h2>Lô hàng của nông trại</h2><p class="hb-note">Bấm “Xác nhận chờ lấy hàng” để chuyển từ CREATED sang WAITING_FOR_PICKUP.</p><div id="farm-products" class="hb-list"></div></article>
+  </section>
+</main>
+<script src="js/api.js"></script><script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script><script src="js/farms.js"></script><script src="js/pwa.js"></script>
+</body></html>

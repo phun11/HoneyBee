@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HoneyBee Trace - Xác thực sản phẩm</title>
+  <link rel="stylesheet" href="css/honeybee.css" />
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#F6B93B">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+</head>
+<body>
+  <header class="hb-header">
+    <div class="hb-mobile-shell hb-header-inner">
+      <a class="hb-brand" href="index.html"><span class="hb-logo">🐝</span><span>HoneyBee Trace<small>Xác thực sản phẩm</small></span></a>
+      <a class="hb-btn ghost" href="scanner.html">Quét lại</a>
+    </div>
+  </header>
+
+  <main class="hb-mobile-shell" style="padding:18px 0 34px">
+    <section id="loading" class="hb-card"><strong>Đang kiểm tra QR...</strong><p>HoneyBee đang đối chiếu token, lịch sử quét và trạng thái lô hàng.</p></section>
+    <section id="content" style="display:none"></section>
+  </main>
+
+  <script src="js/api.js"></script>
+  <script src="js/detail.js"></script>
+  <script src="js/pwa.js"></script>
+</body>
+</html>
