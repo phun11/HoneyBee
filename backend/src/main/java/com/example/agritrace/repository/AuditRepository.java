@@ -24,8 +24,21 @@ public class AuditRepository {
 
     /** Ghi một dòng audit ngắn gọn cho hành động quan trọng. */
     public void log(String tableName, String recordId, String actionType, String oldData, String newData, String performedBy, String ip) {
-        jdbc.update("INSERT INTO AUDIT_LOGS(TABLE_NAME, RECORD_ID, ACTION_TYPE, OLD_DATA, NEW_DATA, PERFORMED_BY, IP_ADDRESS) VALUES(?,?,?,?,?,?,?)",
-                tableName, recordId, actionType, oldData, newData, performedBy, ip);
+        jdbc.update("""
+                INSERT INTO AUDIT_LOGS(TABLE_NAME, RECORD_ID, ACTION_TYPE, OLD_DATA, NEW_DATA, PERFORMED_BY, IP_ADDRESS, SOURCE_TYPE)
+                VALUES(?,?,?,?,?,?,?, 'ONLINE')
+                """, tableName, recordId, actionType, oldData, newData, performedBy, ip);
+    }
+
+    /** Ghi audit cho thao tác được tạo khi offline và đồng bộ lại sau khi reconnect. */
+    public void logOfflineSync(String tableName, String recordId, String actionType, String oldData, String newData, String performedBy,
+                               String clientActionId, String deviceId, java.time.LocalDateTime offlineCreatedAt) {
+        jdbc.update("""
+                INSERT INTO AUDIT_LOGS(TABLE_NAME, RECORD_ID, ACTION_TYPE, OLD_DATA, NEW_DATA, PERFORMED_BY, IP_ADDRESS,
+                    CLIENT_ACTION_ID, DEVICE_ID, OFFLINE_CREATED_AT, SYNCED_AT, SOURCE_TYPE)
+                VALUES(?,?,?,?,?,?,NULL,?,?,?,CURRENT_TIMESTAMP,'OFFLINE_SYNC')
+                """, tableName, recordId, actionType, oldData, newData, performedBy, clientActionId, deviceId,
+                offlineCreatedAt == null ? null : java.sql.Timestamp.valueOf(offlineCreatedAt));
     }
 
     /**

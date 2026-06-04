@@ -317,13 +317,13 @@ public class SystemRepository {
         h.put("storeCount", safeCount("STORES"));
         h.put("transporterCount", safeCount("TRANSPORTERS"));
         h.put("qrCount", safeCount("QR_CODES"));
-        String[] tables = {"FARMS","TRANSPORTERS","STORES","USERS","PRODUCTS","PRODUCT_ORIGIN","CERTIFICATES","TRANSPORT_HISTORY","DISTRIBUTION_HISTORY","BATCH_STATUS_HISTORY","PRODUCT_UPDATES","QR_CODES","QR_SCAN_LOGS","QR_SECURITY_ALERTS","AUDIT_LOGS"};
+        String[] tables = {"FARMS","TRANSPORTERS","STORES","USERS","PRODUCTS","PRODUCT_ORIGIN","CERTIFICATES","TRANSPORT_HISTORY","DISTRIBUTION_HISTORY","BATCH_STATUS_HISTORY","PRODUCT_UPDATES","QR_CODES","QR_SCAN_LOGS","QR_SECURITY_ALERTS","AUDIT_LOGS","OFFLINE_SYNC_LOGS"};
         java.util.List<String> missingTables = new java.util.ArrayList<>();
         for (String t : tables) if (!tableExists(t)) missingTables.add(t);
         h.put("missingTables", missingTables);
         String[][] columns = {
                 {"PRODUCTS","BATCH_CODE"},{"PRODUCTS","PRODUCT_IMAGE_B64"},{"PRODUCTS","PRODUCT_IMAGE_MIME"},{"PRODUCTS","STORE_ID"},{"PRODUCTS","TRANSPORTER_ID"},{"PRODUCTS","PICKUP_LOCATION"},{"PRODUCTS","DELIVERY_LOCATION"},{"PRODUCTS","REQUIRED_TEMP_MIN"},{"PRODUCTS","REQUIRED_HUMIDITY_MAX"},
-                {"QR_CODES","SOLD_NOTE"},{"QR_CODES","SALE_STATUS"},{"TRANSPORT_HISTORY","CURRENT_LOCATION"},{"TRANSPORT_HISTORY","SEAL_STATUS"},{"STORES","STORE_NAME"}
+                {"QR_CODES","SOLD_NOTE"},{"QR_CODES","SALE_STATUS"},{"TRANSPORT_HISTORY","CURRENT_LOCATION"},{"TRANSPORT_HISTORY","SEAL_STATUS"},{"STORES","STORE_NAME"},{"AUDIT_LOGS","SOURCE_TYPE"},{"AUDIT_LOGS","CLIENT_ACTION_ID"},{"OFFLINE_SYNC_LOGS","CLIENT_ACTION_ID"},{"OFFLINE_SYNC_LOGS","RESULT_STATUS"}
         };
         java.util.List<String> missingColumns = new java.util.ArrayList<>();
         for (String[] c : columns) if (!columnExists(c[0], c[1])) missingColumns.add(c[0] + "." + c[1]);

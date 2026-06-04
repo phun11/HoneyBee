@@ -9,7 +9,7 @@ FROM user_tables
 WHERE table_name IN (
  'FARMS','TRANSPORTERS','STORES','USERS','PRODUCTS','PRODUCT_ORIGIN','CERTIFICATES',
  'TRANSPORT_HISTORY','DISTRIBUTION_HISTORY','BATCH_STATUS_HISTORY','PRODUCT_UPDATES',
- 'QR_CODES','QR_SCAN_LOGS','QR_SECURITY_ALERTS','AUDIT_LOGS','APP_SCHEMA_INFO'
+ 'QR_CODES','QR_SCAN_LOGS','QR_SECURITY_ALERTS','AUDIT_LOGS','OFFLINE_SYNC_LOGS','APP_SCHEMA_INFO'
 )
 ORDER BY table_name;
 
@@ -43,3 +43,6 @@ PROMPT === Demo products ===
 SELECT product_id, batch_code, product_name, status, store_id, transporter_id, pickup_location, delivery_location
 FROM products
 ORDER BY product_id;
+
+PROMPT Offline sync columns
+SELECT table_name, column_name FROM user_tab_columns WHERE (table_name='AUDIT_LOGS' AND column_name IN ('SOURCE_TYPE','CLIENT_ACTION_ID','DEVICE_ID','OFFLINE_CREATED_AT','SYNCED_AT')) OR table_name='OFFLINE_SYNC_LOGS' ORDER BY table_name, column_id;
